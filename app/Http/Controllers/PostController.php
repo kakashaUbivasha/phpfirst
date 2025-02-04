@@ -10,10 +10,8 @@ class PostController extends Controller
 {
     public function index(){
         $posts = Post::where('is_published', 1)->get();
-        foreach($posts as $post){
-            dump($post->title);
-        }
-        dd('end');
+        return view('posts', compact('posts'));
+
     }
     public function create(){
         $postsArray = [
@@ -38,7 +36,32 @@ class PostController extends Controller
         }
         dd('created');
     }
-    public function update(){
-
+    public function delete(){
+        $post = Post::find(3);
+        $post->delete();
+    }
+    public function firstOrCreate(){
+            $anotherPost= [
+                'title' => 'some post',
+                'content' => 'some content1',
+                'image' => 'some image',
+                'likes' => 11,
+                'is_published' => 0,
+            ];
+            $post = Post::firstOrCreate(['title'=>'some post'], $anotherPost);
+            dump($post->content);
+            dd('finish');
+    }
+    public function updateOrCreate(){
+        $anotherPost= [
+            'title' => 'some post',
+            'content' => 'some content1',
+            'image' => 'some image',
+            'likes' => 111,
+            'is_published' => 0,
+        ];
+        $post = Post::updateOrCreate(['title'=>'some post'], $anotherPost);
+        dump($post->content);
+        dd('finish');
     }
 }

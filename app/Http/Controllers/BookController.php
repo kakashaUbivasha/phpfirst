@@ -10,9 +10,7 @@ class BookController extends Controller
 {
     public function index(){
         $books = Book::where('pages', 320)->get();
-        foreach($books as $book){
-            dd($book->pages);
-        }
+        return view('about', compact('books'));
     }
     public function create(){
         $booksArray = [
