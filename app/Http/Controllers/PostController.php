@@ -9,32 +9,41 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     public function index(){
-        $posts = Post::where('is_published', 1)->get();
-        return view('posts', compact('posts'));
+        $posts = Post::all();
+        return view('post.index', compact('posts'));
 
     }
     public function create(){
-        $postsArray = [
-            [
-                'title' => 'title custom',
-                'content' => 'content custom',
-                'image' => 'image custom',
-                'likes' => 10,
-                'is_published' => 1,
-            ],
-            [
-                'title' => 'title1 custom',
-                'content' => 'content 1custom',
-                'image' => 'image1 custom',
-                'likes' => 101,
-                'is_published' => 1,
-            ],
+        return view('post.create');
+    }
+    public function store(Request $request)
+    {
+        Post::create($request->validate([
+            'title' => 'string|required',
+            'content' => 'string|required',
+            'image' => 'string|required'
+        ]));
 
-        ];
-        foreach($postsArray as $post){
-            Post::create($post);
-        }
-        dd('created');
+        return redirect()->route('post.index');
+    }
+    public function show(Post $post)
+    {
+        return view('post.show', compact('post'));
+    }
+    public function edit(Post $post){
+        return view('post.edit', compact('post'));
+    }
+    public function update(Request $request, Post $post){
+        $post->update($request->validate([
+            'title' => 'string|required',
+            'content' => 'string|required',
+            'image' => 'string|required'
+        ]));
+        return redirect()->route('post.show', $post->id);
+    }
+    public function destroy(Post $post){
+        $post->delete();
+        return redirect()->route('post.index');
     }
     public function delete(){
         $post = Post::find(3);

@@ -9,34 +9,39 @@ use Illuminate\Http\Request;
 class BookController extends Controller
 {
     public function index(){
-        $books = Book::where('pages', 320)->get();
-        return view('about', compact('books'));
+        $books = Book::all();
+        return view('book.index', compact('books'));
     }
     public function create(){
-        $booksArray = [
-            [
-                'title' =>'title1',
-                'author' =>'author1',
-                'pages' => 320,
-                'publisher'=>'publisher1',
-            ],
-            [
-                'title' =>'title2',
-                'author' =>'author3',
-                'pages' => 310,
-                'publisher'=>'publisher2',
-            ]
-
-        ];
-        foreach($booksArray as $book){
-            Book::create($book);
-        }
-        dd('create success');
+        return view('book.create');
     }
-    public function update(){
-        $book = Book::find(1)->update([
-            'title'=>'title3',
-        ]);
-        dd('update success');
+    public function store(Request $request){
+        Book::create($request->validate([
+            'title' => 'required',
+            'author' => 'required',
+            'publisher' => 'required',
+            'pages' => 'required',
+        ]));
+        return redirect()->route('book.index');
+    }
+    public function show(Book $book)
+    {
+        return view('book.show', compact('book'));
+    }
+    public function edit(Book $book){
+        return view('book.edit', compact('book'));
+    }
+    public function update(Request $request, Book $book){
+        $book->update($request->validate([
+            'title' => 'required',
+            'author' => 'required',
+            'publisher' => 'required',
+            'pages' => 'required',
+        ]));
+        return redirect()->route('book.show', $book->id);
+    }
+    public function destroy(Book $book){
+        $book->delete();
+        return redirect()->route('book.index');
     }
 }

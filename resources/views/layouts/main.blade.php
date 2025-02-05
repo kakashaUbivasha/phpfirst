@@ -8,8 +8,8 @@
 <body>
 <div class="">
     <ul>
-        <li><a href="{{route('post.index')}}">main</a></li>
-        <li><a href="{{route('book.index')}}">posts</a></li>
+        <li><a href="{{route('post.index')}}">posts</a></li>
+        <li><a href="{{route('book.index')}}">about</a></li>
     </ul>
 </div>
 @yield('content')
