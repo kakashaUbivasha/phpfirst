@@ -18,6 +18,12 @@ return new class extends Migration
             $table->string('publisher');
             $table->unsignedInteger('pages')->default(10);
             $table->timestamps();
+
+
+            $table->softDeletes();
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->index('category_id', 'book_category_idx');
+            $table->foreign('category_id', 'book_category_fk')->references('id')->on('categories');
         });
     }
 

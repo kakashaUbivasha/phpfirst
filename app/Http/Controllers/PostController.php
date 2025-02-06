@@ -3,25 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
     public function index(){
         $posts = Post::all();
-        return view('post.index', compact('posts'));
 
+        return view('post.index', compact('posts'));
+//            $post = Post::find(1);
+//            $tag = Tag::find(3);
+//            dd($tag->posts);
     }
     public function create(){
-        return view('post.create');
+        $categories = Category::all();
+        return view('post.create', compact('categories'));
     }
     public function store(Request $request)
     {
         Post::create($request->validate([
             'title' => 'string|required',
             'content' => 'string|required',
-            'image' => 'string|required'
+            'image' => 'string|required',
+            'category_id' => 'integer|required',
         ]));
 
         return redirect()->route('post.index');
@@ -31,13 +38,15 @@ class PostController extends Controller
         return view('post.show', compact('post'));
     }
     public function edit(Post $post){
-        return view('post.edit', compact('post'));
+        $categories = Category::all();
+        return view('post.edit', compact(['post', 'categories']));
     }
     public function update(Request $request, Post $post){
         $post->update($request->validate([
             'title' => 'string|required',
             'content' => 'string|required',
-            'image' => 'string|required'
+            'image' => 'string|required',
+            'category_id' => 'integer|required',
         ]));
         return redirect()->route('post.show', $post->id);
     }

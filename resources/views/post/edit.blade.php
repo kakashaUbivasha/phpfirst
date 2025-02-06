@@ -22,6 +22,13 @@
 {{--            <label for="likes">Likes</label>--}}
 {{--            <input type="number" class="form-control" id="likes"  placeholder="Enter likes">--}}
 {{--        </div>--}}
+        <select name="category_id">
+            @foreach($categories as $category)
+                <option
+                    {{$category->id===$post->category->id?'selected':''}}
+                    value="{{$category->id}}">{{$category->title}}</option>
+            @endforeach
+        </select>
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </div>

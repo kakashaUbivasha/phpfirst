@@ -16,6 +16,14 @@
             <label for="image">Image</label>
             <input type="text" class="form-control" name="image" id="image"  placeholder="Enter image">
         </div>
+        <div class="">
+            <label for="category">Category</label>
+            <select id="category" name="category_id">
+                @foreach($categories as $category)
+                    <option value="{{$category->id}}">{{$category->title}}</option>
+                @endforeach
+            </select>
+        </div>
 {{--        <div class="form-group">--}}
 {{--            <label for="likes">Likes</label>--}}
 {{--            <input type="number" class="form-control" id="likes"  placeholder="Enter likes">--}}
