@@ -2,8 +2,14 @@
 
 use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MyPageController;
-use App\Http\Controllers\PostController;
+
+use App\Http\Controllers\Post\IndexController;
+use App\Http\Controllers\Post\CreateController;
+use App\Http\Controllers\Post\StoreController;
+use App\Http\Controllers\Post\ShowController;
+use App\Http\Controllers\Post\EditController;
+use App\Http\Controllers\Post\UpdateController;
+use App\Http\Controllers\Post\DestroyController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,14 +24,17 @@ use App\Http\Controllers\PostController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('posts', [PostController::class, 'index'])->name('post.index');
-Route::get('posts/create', [PostController::class, 'create'])->name('post.create');
+Route::group(['prefix' => 'posts'], function () {
+    Route::get('/', IndexController::class)->name('post.index');
+    Route::get('/create', CreateController::class)->name('post.create');
 
-Route::post('posts', [PostController::class, 'store'])->name('post.store');
-Route::get('posts/{post}', [PostController::class, 'show'])->name('post.show');
-Route::get('posts/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
-Route::patch('posts/{post}', [PostController::class, 'update'])->name('post.update');
-Route::delete('posts/{post}', [PostController::class, 'destroy'])->name('post.destroy');
+    Route::post('/', StoreController::class)->name('post.store');
+    Route::get('/{post}', ShowController::class)->name('post.show');
+    Route::get('/{post}/edit', EditController::class)->name('post.edit');
+    Route::patch('/{post}', UpdateController::class)->name('post.update');
+    Route::delete('/{post}', DestroyController::class)->name('post.destroy');
+});
+
 
 
 //Route::get('posts/update', [PostController::class, 'update']);

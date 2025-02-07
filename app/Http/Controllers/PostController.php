@@ -12,7 +12,8 @@ class PostController extends Controller
 {
     public function index(){
         $posts = Post::all();
-
+        $tags = Tag::find(1);
+        dd($tags->posts);
         return view('post.index', compact('posts'));
 //            $post = Post::find(1);
 //            $tag = Tag::find(3);
@@ -20,17 +21,25 @@ class PostController extends Controller
     }
     public function create(){
         $categories = Category::all();
-        return view('post.create', compact('categories'));
+        $tags = Tag::all();
+        return view('post.create', compact('categories', 'tags'));
     }
     public function store(Request $request)
     {
-        Post::create($request->validate([
+
+        $data = $request->validate([
             'title' => 'string|required',
             'content' => 'string|required',
             'image' => 'string|required',
             'category_id' => 'integer|required',
-        ]));
-
+            'tags' => '',
+        ]);
+        $tags = $data['tags'];
+        unset($data["tags"]);
+        $post =  Post::create($data);
+        dump('create post', $data);
+        $post->tags()->attach($tags);
+        dump('create tags', $tags);
         return redirect()->route('post.index');
     }
     public function show(Post $post)
@@ -39,15 +48,21 @@ class PostController extends Controller
     }
     public function edit(Post $post){
         $categories = Category::all();
-        return view('post.edit', compact(['post', 'categories']));
+        $tags = Tag::all();
+        return view('post.edit', compact(['post', 'categories', 'tags']));
     }
     public function update(Request $request, Post $post){
-        $post->update($request->validate([
+        $data = $request->validate([
             'title' => 'string|required',
             'content' => 'string|required',
             'image' => 'string|required',
             'category_id' => 'integer|required',
-        ]));
+            'tags' => '',
+        ]);
+        $tags = $data['tags'];
+        unset($data["tags"]);
+        $post->update();
+        $post->tags()->sync($tags);
         return redirect()->route('post.show', $post->id);
     }
     public function destroy(Post $post){

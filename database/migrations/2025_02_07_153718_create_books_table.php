@@ -15,15 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('author');
-            $table->string('publisher');
-            $table->unsignedInteger('pages')->default(10);
+            $table->string('publisher')->nullable();
+            $table->unsignedBigInteger('pages')->default(0);
             $table->timestamps();
-
-
             $table->softDeletes();
-            $table->unsignedBigInteger('category_id')->nullable();
-            $table->index('category_id', 'book_category_idx');
-            $table->foreign('category_id', 'book_category_fk')->references('id')->on('categories');
+
+
+            $table->unsignedBigInteger('category_id');
+
         });
     }
 
