@@ -20,5 +20,8 @@
                 </div>
             @endforeach
         </div>
+        <div class="">
+            {{$posts->withQueryString()->links()}}
+        </div>
     </div>
 @endsection
