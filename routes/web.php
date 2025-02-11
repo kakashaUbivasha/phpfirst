@@ -23,14 +23,14 @@ use App\Http\Controllers\Post\DestroyController;
 */
 
 
-Route::group(['prefix' => 'posts', 'middleware'=>'post'], function () {
+Route::group(['prefix' => 'posts'], function () {
     Route::get('/', IndexController::class)->name('post.index');
     Route::get('/create', CreateController::class)->name('post.create');
 
     Route::post('/', StoreController::class)->name('post.store');
+    Route::patch('/{post}', UpdateController::class)->name('post.update');
     Route::get('/{post}', ShowController::class)->name('post.show');
     Route::get('/{post}/edit', EditController::class)->name('post.edit');
-    Route::patch('/{post}', UpdateController::class)->name('post.update');
     Route::delete('/{post}', DestroyController::class)->name('post.destroy');
 });
 //Route::get('main', MainController::class)->name('main.index');

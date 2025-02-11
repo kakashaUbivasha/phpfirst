@@ -11,11 +11,13 @@ class Service
         unset($data["tags"]);
         $post =  Post::create($data);
         $post->tags()->attach($tags);
+        return $post;
     }
     public function update($post, $data){
         $tags = $data['tags'];
         unset($data["tags"]);
         $post->update($data);
         $post->tags()->sync($tags);
+        return $post->fresh();
     }
 }
