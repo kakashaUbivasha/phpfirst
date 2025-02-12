@@ -18,7 +18,7 @@ class IndexController extends BaseController{
         $filter = app()->make(PostFilter::class, ['queryParams' => array_filter($data)]);
         $posts = Post::filter($filter)->paginate($perPage,['*'],'page',$page);
         return PostResource::collection($posts);
-        //return view('post.index', compact('posts'));
+//        return view('post.index', compact('posts'));
     }
 }
 

@@ -42,6 +42,6 @@ Route::get('books/{book}/edit', [BookController::class, 'edit'])->name('book.edi
 Route::patch('books/{book}', [BookController::class, 'update'])->name('book.update');
 Route::delete('books/{book}', [BookController::class, 'destroy'])->name('book.destroy');
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
