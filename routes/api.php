@@ -4,6 +4,7 @@ use App\Http\Controllers\Post\CreateController;
 use App\Http\Controllers\Post\IndexController;
 use App\Http\Controllers\Post\ShowController;
 use App\Http\Controllers\Post\StoreController;
+use App\Http\Controllers\Post\UpdateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,5 +35,5 @@ Route::get('/posts', IndexController::class);
 Route::get('/posts/create', CreateController::class);
 Route::post('/posts', StoreController::class);
 Route::get('/posts/{post}', ShowController::class);
-
+    Route::patch('/posts/{post}', UpdateController::class);
 });
